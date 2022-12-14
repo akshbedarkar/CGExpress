@@ -1,0 +1,85 @@
+﻿@model IEnumerable<RailwayReservationMVC.Models.TrainDetails>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Homepage </title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-info fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">RailYatri</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="~/Home/Index">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/SignUp">SignUp</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="~/Home/LogIn">LogIn</a>
+                    </li>
+
+
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <section class="intro">
+        <div class="bg-image h-100" style="background-color: #f5f7fa;">
+            <div class="mask d-flex align-items-center h-100">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                    <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                                        <table class="table table-striped mb-0">
+                                            <thead style="background-color: #82b5c4; ">
+                                                <tr>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.TrainName)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.SourceStation)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.DestinationStation)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.Fare)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.ArrivalTime)</th>
+                                                    <th scope="col">@Html.DisplayNameFor(model => model.TotalSeats)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(modelItem => item.TrainName)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.SourceStation)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.DestinationStation)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.Fare)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.ArrivalTime)</td>
+                                                        <td>@Html.DisplayFor(modelItem => item.TotalSeats)</td>
+                                                    </tr>
+                                                    
+                                                    
+                                                }    
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+
