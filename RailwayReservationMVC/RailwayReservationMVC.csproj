@@ -125,10 +125,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DAL\IRailwayRepository.cs" />
+    <Compile Include="Models\DAL\RailwayRepository.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Ticket.cs" />
@@ -157,7 +160,7 @@
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Homepage.cshtml" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.esm.min.js.map" />
@@ -165,7 +168,17 @@
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Views\Home\SignUp.cshtml" />
-    <Content Include="Views\Home\LogIn.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Home\ReservationPage.cshtml" />
+    <Content Include="Views\Home\CreateReservation.cshtml" />
+    <Content Include="Views\Home\DeleteReservation.cshtml" />
+    <Content Include="Views\Home\afterlogin.cshtml" />
+    <Content Include="Views\Home\AdminLogin.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
