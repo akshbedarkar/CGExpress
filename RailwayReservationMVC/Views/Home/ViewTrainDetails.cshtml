@@ -1,12 +1,15 @@
-﻿<h2>ViewTrainDetails</h2>
+﻿@model IEnumerable<RailwayReservationMVC.Models.TrainDetails>
 
- @using (Html.BeginForm("ViewTrainDetails", "Home", FormMethod.Post))
+
+@using (Html.BeginForm("ViewTrainDetails", "Home", FormMethod.Post))
 {
     @Html.TextBox("searching")
-    <input type="submit" value="Search" />
+    
+    <button type="submit" class="btn btn-success">Search</button>
 }
+
 <table class="table table-striped">
-    <thead>
+    <thead >
         <tr>
 
             <th>Train Name</th>
@@ -31,7 +34,7 @@
         {
             foreach (var item in Model)
             {
-                <tr>
+                <tr >
 
                     <td>@item.TrainName</td>
                     <td>@item.SourceStation</td>
@@ -48,4 +51,3 @@
         }
     </tbody>
 </table>
-

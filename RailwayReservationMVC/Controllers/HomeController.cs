@@ -225,7 +225,9 @@ namespace RailwayReservationMVC.Controllers
         #region search train
         public ActionResult ViewTrainDetails()
         {
-            return View();
+            var data = TrainDetailsObject.GetModel().ToList();
+            return View(data);
+            
         }
         [HttpPost]
         public ActionResult ViewTrainDetails(string searching)
