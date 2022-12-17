@@ -111,6 +111,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\brian-suman-8eId7mS_FCY-unsplash.jpg" />
     <Content Include="Content\LogIn.css" />
     <Content Include="Content\SignUp.css" />
     <Content Include="Content\Site.css" />
@@ -167,7 +168,6 @@
     <Content Include="Scripts\bootstrap.esm.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Views\Home\SignUp.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
@@ -179,6 +179,8 @@
     <Content Include="Views\Home\afterlogin.cshtml" />
     <Content Include="Views\Home\AdminLogin.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\SignUp.cshtml" />
+    <Content Include="Views\Home\ViewTrainDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

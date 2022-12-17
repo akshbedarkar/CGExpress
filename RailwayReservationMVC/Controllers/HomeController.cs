@@ -29,7 +29,7 @@ namespace RailwayReservationMVC.Controllers
         }
         #endregion
 
-
+       
         #region Homepage
         public ActionResult Homepage()
         {
@@ -40,16 +40,20 @@ namespace RailwayReservationMVC.Controllers
         #endregion
 
 
-
+        
         #region Search Train
+        [HttpPost]
+        public ActionResult Homepage(string searching)
+        {
+            return View(TrainDetailsObject.GetModel().Where(x => x.DestinationStation.Contains(searching) || searching == null).ToList());
+        }
 
-      
-       
+
 
         #endregion
 
 
-
+        
         #region SignUp and Email Notification
         public ActionResult SignUp()
         {
@@ -59,36 +63,39 @@ namespace RailwayReservationMVC.Controllers
         [HttpPost]
         public ActionResult SignUp(User u)
         {
-            //email notification
-            MailMessage mm = new MailMessage("railwayreservationsystemmail@gmail.com", u.Email);
+            
+                //email notification
+                MailMessage mm = new MailMessage("railwayreservationsystemmail@gmail.com",u.Email);
 
-            mm.Subject = "Welcome to Railway Reservation System";
-            mm.Body = "This is your password :" + u.Password.ToString() + "\n" + "Have a safe journey with us !";
-            mm.IsBodyHtml = false;
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.Port = 587;
-            smtp.EnableSsl = true;
+                mm.Subject = "Welcome to Railway Reservation System";
+                mm.Body = "This is your password :" + u.Password.ToString() + "\n" + "Have a safe journey with us !";
+                mm.IsBodyHtml = false;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
 
-            NetworkCredential nc = new NetworkCredential("railwayreservationsystemmail@gmail.com", "chfxpbtcfjfobhlv");
-            smtp.UseDefaultCredentials = true;
-            smtp.Credentials = nc;
-            smtp.Send(mm);
-            TempData["Message"] ="Thank you for Connecting with us!Your password has been sent to your regsitered mail id  ";
+                NetworkCredential nc = new NetworkCredential("railwayreservationsystemmail@gmail.com", "chfxpbtcfjfobhlv");
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = nc;
+                smtp.Send(mm);
+                TempData["Message"] = "Thank you for Connecting with us!Your password has been sent to your regsitered mail id  ";
 
-            //password encryption 
-            u.Password = Convert.ToBase64String(
-            System.Security.Cryptography.SHA256.Create()
-            .ComputeHash(Encoding.UTF8.GetBytes(u.Password)));
+                //password encryption 
+                u.Password = Convert.ToBase64String(
+                System.Security.Cryptography.SHA256.Create()
+                .ComputeHash(Encoding.UTF8.GetBytes(u.Password)));
 
-            //update database with new user
-            UserObject.InsertModel(u);
-            UserObject.Save();
-            return RedirectToAction("afterlogin");
+                //update database with new user
+                UserObject.InsertModel(u);
+                UserObject.Save();
+                return RedirectToAction("afterlogin");
+           
+            
+            
         }
 
         #endregion
-
 
 
         #region Login
@@ -133,7 +140,7 @@ namespace RailwayReservationMVC.Controllers
                 if (data.Count() > 0)
                 {
                     
-                    return RedirectToAction("Updatetrain");
+                    return RedirectToAction("Index","Admin");
                 }
                 else
                 {
@@ -162,7 +169,7 @@ namespace RailwayReservationMVC.Controllers
         }
         #endregion
 
-
+        
         #region Reservation
 
         public ActionResult ReservationPage()
@@ -214,6 +221,18 @@ namespace RailwayReservationMVC.Controllers
         #endregion
 
 
+
+        #region search train
+        public ActionResult ViewTrainDetails()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ViewTrainDetails(string searching)
+        {
+            return View(TrainDetailsObject.GetModel().Where(x => x.DestinationStation.Contains(searching) || searching == null).ToList());
+        }
+        #endregion
 
     }
 }

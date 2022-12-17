@@ -36,7 +36,7 @@
     </nav>
 
     <!--Search Trains-->
-    @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+    @using (Html.BeginForm("Homepage", "Home", FormMethod.Post))
     {
         @Html.TextBox("searching")
         <input type="submit" value="Search" />
