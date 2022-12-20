@@ -10,17 +10,24 @@ namespace RailwayReservationMVC.Controllers
 {
     public class AdminController : Controller
     {
+        #region repositorypattern
         private IRailwayRepository<TrainDetails> interfaceObj;
+        
         public AdminController()
         {
             this.interfaceObj = new RailwayRepository<TrainDetails>();
 
         }
-        // GET: Admin
+        #endregion
+
+
+        #region admin crudoperations
         public ActionResult Index()
         {
             var data = interfaceObj.GetModel().ToList();
             return View(data);
+            
+
         }
 
         public ActionResult Create()
@@ -74,4 +81,5 @@ namespace RailwayReservationMVC.Controllers
             return RedirectToAction("Index");
         }
     }
+    #endregion
 }

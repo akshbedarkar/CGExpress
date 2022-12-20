@@ -1,19 +1,24 @@
 ﻿
 @{
-    ViewBag.Title = "afterlogin";
+    ViewBag.Title = "Welcome User !";
 }
-@TempData["Message"]
+
 
 <style>
+    body {
+        background-image: url('https://cdn.pixabay.com/photo/2018/02/21/10/16/train-station-3169964_1280.jpg');
+        height: 100vh;
+    }
+
+
     .card {
         display: inline-block;
-        
+        margin: auto;
     }
 </style>
 
 <!-- Background image -->
-<div class="bg-image d-flex justify-content-center align-items-center"
-     style=" background-image: url(''); height: 100vh; ">
+<div class="bg-image d-flex justify-content-center align-items-center">
     <div class="card" style="width: 18rem; background-color:aliceblue">
         <div class="card-body">
             <div class="col-mt-2">
@@ -29,7 +34,7 @@
             <div class="col-mt-2">
                 <h5 class="card-title">Reservation</h5>
                 <p class="card-text">Book Train Tickets</p>
-                <a href="homepage" class="btn btn-primary">Book Ticket</a>
+                 @Html.ActionLink("Book Ticket", "Index", "Res", "", new { @class = "btn btn-primary" })
             </div>
         </div>
     </div>
@@ -39,10 +44,18 @@
             <div class="col-mt-2">
                 <h5 class="card-title">Cancel Ticket!</h5>
                 <p class="card-text">Enter your PNR number !</p>
-                <a href="homepage" class="btn btn-primary">Cancel Ticket!</a>
+                @*<a href="homepage" class="btn btn-primary">Cancel Ticket!</a>*@
+                @Html.ActionLink("Cancel Ticket","CancelPNR","Res","",new { @class="btn btn-primary"})
             </div>
         </div>
     </div>
 
 </div>
+
+
+<h6>
+
+    @TempData["Message"]
+</h6>
+
 

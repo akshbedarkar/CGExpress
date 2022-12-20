@@ -6,6 +6,7 @@ using System.Net;
 using System.Web.Mvc;
 using System.Text;
 using RailwayReservationMVC.Models.DAL;
+using System.Collections.Generic;
 
 namespace RailwayReservationMVC.Controllers
 {
@@ -17,6 +18,7 @@ namespace RailwayReservationMVC.Controllers
         private IRailwayRepository<TrainDetails> TrainDetailsObject;
         private IRailwayRepository<User> UserObject;
         #endregion
+
 
 
         #region Repository Constructor
@@ -63,9 +65,10 @@ namespace RailwayReservationMVC.Controllers
         [HttpPost]
         public ActionResult SignUp(User u)
         {
-            
+            if(ModelState.IsValid)
+            {
                 //email notification
-                MailMessage mm = new MailMessage("railwayreservationsystemmail@gmail.com",u.Email);
+                MailMessage mm = new MailMessage("railwayreservationsystemmail@gmail.com", u.Email);
 
                 mm.Subject = "Welcome to Railway Reservation System";
                 mm.Body = "This is your password :" + u.Password.ToString() + "\n" + "Have a safe journey with us !";
@@ -89,7 +92,18 @@ namespace RailwayReservationMVC.Controllers
                 //update database with new user
                 UserObject.InsertModel(u);
                 UserObject.Save();
+
+                //session for userid 
+                Session["user_id"] = u.User_Id;
+
                 return RedirectToAction("afterlogin");
+            }
+            else
+            {
+                TempData["InvalidCredentials"] = "Invalid SignUp Credentials";
+                return View();
+            }
+              
            
             
             
@@ -106,14 +120,26 @@ namespace RailwayReservationMVC.Controllers
 
         
         [HttpPost]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login(string email,string password)
         {
             if (ModelState.IsValid)
             {
-               
-                var data = UserObject.GetModel().Where(model => model.Email.Equals(email) && model.Password.Equals(password)).ToList();
+                List<User> userDetails = UserObject.GetModel().ToList();
+                var userid = from id in userDetails where id.Email ==email select id.User_Id;
+
+                Session["user_id"] = userid;
+
+
+                //password encryption to validate with database encrypted password
+                password = Convert.ToBase64String(
+                System.Security.Cryptography.SHA256.Create()
+                        .ComputeHash(Encoding.UTF8.GetBytes(password)));
+
+
+                var data = UserObject.GetModel().Where(s => s.Email.Equals(email) && s.Password.Equals(password)).ToList();
                 if (data.Count() > 0)
-                { 
+                {
+                    
                     return RedirectToAction("afterlogin");
                 }
                 else
@@ -125,31 +151,37 @@ namespace RailwayReservationMVC.Controllers
 
             return View();
         }
-
+       
         public ActionResult AdminLogin()
         {
-            return View("");
+            return View();
         }
         [HttpPost]
-        public ActionResult AdminLogin(string email, string password, string role)
+        public ActionResult AdminLogin(string email,string password,string role)
         {
+
+
             if (ModelState.IsValid)
             {
-
-                var data = UserObject.GetModel().Where(model => model.Email.Equals(email) && model.Password.Equals(password) && model.Role.Equals(role)).ToList();
+                
+                var data = UserObject.GetModel().Where(s => s.Email.Equals(email) && s.Password.Equals(password) && s.Role.Equals(role)).ToList();
                 if (data.Count() > 0)
                 {
+
                     
                     return RedirectToAction("Index","Admin");
                 }
                 else
                 {
                     ViewBag.error = "Login failed";
-                    return RedirectToAction("AdminLogin");
+                    return RedirectToAction("Login");
                 }
             }
 
             return View();
+
+
+
         }
 
         public ActionResult afterlogin()
@@ -161,11 +193,15 @@ namespace RailwayReservationMVC.Controllers
 
 
 
+
         #region logout
         public ActionResult Logout()
         {
-            Session.Clear();
-            return RedirectToAction("Login");
+            
+            return RedirectToAction("Homepage");
+                
+               
+           
         }
         #endregion
 

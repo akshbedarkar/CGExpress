@@ -1,0 +1,65 @@
+﻿@model  RailwayReservationMVC.Models.Reservation
+<html>
+<head>
+    <style>
+        .b1 {
+            background-color: cadetblue;
+            border: none;
+            color: black;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+    </style>
+
+</head>
+<body>
+
+    @using (Html.BeginForm())
+    {
+
+        @Html.LabelFor(model => model.Res_Name, "Name", new { @class = "font-weight-bold" })
+        @Html.TextBoxFor(model => model.Res_Name, new { @class = "form-control" })<br />
+
+        @Html.LabelFor(model => model.Res_Gender, "Gender", new { @class = "font-weight-bold" })
+        @Html.TextBoxFor(model => model.Res_Gender, new { @class = "form-control" })<br />
+
+        @Html.LabelFor(model => model.TrainDetails.SourceStation, "Source Station", new { @class = "font-weight-bold" })
+        @Html.DropDownListFor(model => model.TrainDetails.SourceStation, ViewData["TrainDetailS"] as IEnumerable<SelectListItem>, "Select Source Station", new { @class = "form-control" })<br />
+
+
+        @Html.LabelFor(model => model.TrainDetails.DestinationStation, "Destination Station", new { @class = "font-weight-bold" })
+        @Html.DropDownListFor(model => model.TrainDetails.DestinationStation, ViewData["TrainDetailDesti"] as IEnumerable<SelectListItem>, "Select Destination Station", new { @class = "form-control" })<br />
+
+        @Html.LabelFor(model => model.QuotaType, "Select Quota", new { @class = "font-weight-bold" })
+
+        @Html.DropDownListFor(model => model.QuotaType, new SelectList(new[] { "General Quota", "Ladies Quota" }), "", new { @class = "form-control" })<br />
+
+        @Html.LabelFor(model => model.Seat_No, "Number of Passenger", new { @class = "font-weight-bold" })
+
+        @Html.DropDownListFor(model => model.Seat_No, new SelectList(new[] { 1, 2, 3, 4, 5, 6 }), "Select Seats", new { @class = "form-control" })<br />
+
+        @Html.LabelFor(model => model.Res_Date, "Select Date", new { @class = "font-weight-bold" })<br />
+
+
+        <input type = "date" name = "Res_Date" value = "DateTime.Now()" min = "2022-12-20" />
+        
+        <input type="Submit" name="Check Details" , class="b1" value="Book Ticket" />
+
+        @*@Html.ActionLink("Book Ticket", "Index", "Payment", "", new { @class = "b1" });*@
+
+
+    }
+
+
+
+</body>
+</html>
+
+
+
+
+

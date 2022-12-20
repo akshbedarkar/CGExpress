@@ -15,13 +15,13 @@
             <div class="form-group  col-12 mt-3 w-auto">
 
                 @Html.DisplayNameFor(model => model.Email)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                @Html.TextBoxFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email)<br/>
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 
             </div>
             <div class="form-group  col-12 mt-3 col-xs-7">
                 @Html.DisplayNameFor(model => model.Password)
-                @Html.PasswordFor(model => model.Password)
+                @Html.PasswordFor(model => model.Password)<br/>
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
             </div>

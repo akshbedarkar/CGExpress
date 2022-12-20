@@ -1,12 +1,14 @@
 ﻿@model RailwayReservationMVC.Models.User
 
 
+
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    
+
     <title>SignUp</title>
 </head>
-<body >
+<body>
     <form action="SignUp" method="post" style="background-color:aliceblue">
         <div class="border" style=" text-align:center">
             <h2>Sign Up</h2>
@@ -26,9 +28,9 @@
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
 
             </div>
-            <div class="form-group col-12 mt-3 w-auto">
+            <div class="form-group  col-12 mt-3 w-auto">
 
-                @Html.DisplayNameFor(model => model.Gender)&nbsp&nbsp&nbsp&nbsp
+                @Html.DisplayNameFor(model => model.Gender)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                 @Html.TextBoxFor(model => model.Gender)<br />
                 @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
 
@@ -36,13 +38,13 @@
             <div class="form-group  col-12 mt-3 w-auto">
 
                 @Html.DisplayNameFor(model => model.Email)&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                @Html.TextBoxFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email)<br/>
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
 
             </div>
             <div class="form-group  col-12 mt-3 col-xs-7">
                 @Html.DisplayNameFor(model => model.Password)
-                @Html.PasswordFor(model => model.Password)
+                @Html.PasswordFor(model => model.Password)<br/>
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
             </div>

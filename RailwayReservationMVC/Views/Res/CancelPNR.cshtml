@@ -1,0 +1,13 @@
+﻿@model RailwayReservationMVC.Models.Reservation
+
+<h2>CancelPNR</h2>
+@using (Html.BeginForm("CancelPNR","Res",FormMethod.Post))
+{
+    @Html.DisplayNameFor(model => model.PNR_NO)
+    @Html.TextBoxFor(model => model.PNR_NO)
+
+    <button type="submit" name="Cancel">Cancel</button>
+
+}
+
+
