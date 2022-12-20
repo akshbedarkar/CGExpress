@@ -1,12 +1,19 @@
 ﻿@model IEnumerable<RailwayReservationMVC.Models.TrainDetails>
 
 
+@Html.ActionLink("Back", "afterlogin", "Home", "", new { @class = "btn btn-primary" })
+<br />
+<br/>
 @using (Html.BeginForm("ViewTrainDetails", "Home", FormMethod.Post))
 {
     @Html.TextBox("searching")
-    
+
     <button type="submit" class="btn btn-success">Search</button>
+    @Html.ActionLink("Book Ticket", "Index", "Res", "", new { @class = "btn btn-success" })
+    
 }
+
+<br />
 
 <table class="table table-striped">
     <thead>
@@ -34,7 +41,7 @@
         {
             foreach (var item in Model)
             {
-                <tr >
+                <tr>
 
                     <td>@item.TrainName</td>
                     <td>@item.SourceStation</td>

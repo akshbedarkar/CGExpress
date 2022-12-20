@@ -7,6 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Numerics;
 using System.Web.Util;
+using System.Net.Mail;
+using System.Net;
+using System.Web.Helpers;
 
 namespace RailwayReservationMVC.Controllers
 {
@@ -32,11 +35,11 @@ namespace RailwayReservationMVC.Controllers
         [HttpPost]
         public ActionResult CreateOrder(Models.OrderModel _requestData)
         {
-
             Guid guidtrans = Guid.NewGuid();
             BigInteger big = new BigInteger(guidtrans.ToByteArray());
-            var transId = big.ToString().Substring(0, 12);
-            var transactionId = transId.Replace("-", string.Empty);
+            var bigstr = big.ToString();
+            var Id = bigstr.Replace("-", string.Empty);
+            var transactionId = Id.ToString().Substring(0, 12);
             Session["transactionId"] = transactionId;
 
             Razorpay.Api.RazorpayClient client = new Razorpay.Api.RazorpayClient("rzp_test_aJVAJtaSskH7US", "5ug92ZJIU89n0R3SKU7O0RP8");
@@ -64,7 +67,7 @@ namespace RailwayReservationMVC.Controllers
             return View("PaymentPage", orderModel);
         }
 
-
+        
 
 
         [HttpPost]
@@ -89,33 +92,51 @@ namespace RailwayReservationMVC.Controllers
             if (paymentCaptured.Attributes["status"] == "captured")
             {
                 //sessions
-               
                 Guid guid = Guid.NewGuid();
-
                 BigInteger big = new BigInteger(guid.ToByteArray());
-                var pnr = big.ToString().Substring(0, 10);
+                var bigstr = big.ToString();
+                var str = bigstr.Replace("-", string.Empty);
+                var pnr = str.ToString().Substring(0, 10);
+                Session["PNR"] = pnr;
 
-                var str = pnr.Replace("-", string.Empty);
                 List<TrainDetails> trainDetails = TrainObj.GetModel().ToList();
-                
 
-                reserve.PNR_NO = str;
-                Session["PNR"] = str;
+                reserve.PNR_NO = pnr;
+                
                 reserve.Res_Name = (string)Session["ResName"];
                 reserve.Res_Gender = (string)Session["ResGender"];
-                
                 reserve.QuotaType= (string)Session["Quota"];
-
                 reserve.User_Id = (int)Session["user_id"];
                 reserve.Res_Date = (string)Session["Date"];
                 reserve.Seat_No = (int)Session["seatno"];
                 
-                var train_Id = from id in  trainDetails where id.SourceStation == reserve.TrainDetails.SourceStation select id;
-               
-                reserve.Transaction_Id = transactionId;
-               
+                //var train_Id = from id in  trainDetails where id.SourceStation == reserve.TrainDetails.SourceStation select id;
+
+                reserve.Transaction_Id = (string)Session["transactionId"];
+                var train_id = from id in trainDetails where id.SourceStation == (string)Session["SourceStation"] select id.Train_Id;
+                var tf = train_id.FirstOrDefault();
+
+                reserve.Train_Id = tf;
                 ResObj.InsertModel(reserve);
                 ResObj.Save();
+                //email notification:
+                MailMessage mm = new MailMessage("railwayreservationsystemmail@gmail.com", "akshata26bedarkar@gmail.com" );
+
+                mm.Subject = "Welcome to Railway Reservation System";
+                mm.Body = "Thank you for Booking tickets with us!" + "\n" + "Here are you details:" + "\n" + "Transaction Id :" + Session["transactionId"] + "\n" + "PNR Number" + Session["PNR"] + "Name" + "\n" + Session["ResName"] + "Source Station" + "\n" + Session["SourceStation"] + "Destination Station" + "\n" + Session["DestinationStation"] + "\n" + "Thank you ! Have a safe Journey";
+                mm.IsBodyHtml = false;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+
+                NetworkCredential nc = new NetworkCredential("railwayreservationsystemmail@gmail.com", "chfxpbtcfjfobhlv");
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = nc;
+                smtp.Send(mm);
+                //TempData["Message"] = "Ticket Booked !";
+               
+                //redirect to payment gateway
                 return RedirectToAction("Success");
             }
             else
@@ -124,8 +145,10 @@ namespace RailwayReservationMVC.Controllers
             }
         }
 
-        public ActionResult Success()
+        public ActionResult Success(OrderModel e)
         {
+            
+           
             return View();
         }
 

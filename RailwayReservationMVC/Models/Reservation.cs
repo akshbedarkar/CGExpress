@@ -27,7 +27,7 @@ namespace RailwayReservationMVC.Models
         public string Res_Date { get; set; }
 
         //[ForeignKey("TrainDetails")]
-        //public int Train_Id { get; set; }
+        public int Train_Id { get; set; }
         public TrainDetails TrainDetails { get; set; }
         public string PNR_NO { get; set; }
         public int Seat_No { get; set; }

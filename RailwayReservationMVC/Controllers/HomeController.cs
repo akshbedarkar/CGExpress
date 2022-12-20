@@ -82,7 +82,7 @@ namespace RailwayReservationMVC.Controllers
                 smtp.UseDefaultCredentials = true;
                 smtp.Credentials = nc;
                 smtp.Send(mm);
-                TempData["Message"] = "Thank you for Connecting with us!Your password has been sent to your regsitered mail id  ";
+                TempData["Message"] = "Thank you for Connecting with us!Your password has been sent to your registered Emailid  ";
 
                 //password encryption 
                 u.Password = Convert.ToBase64String(
@@ -95,6 +95,7 @@ namespace RailwayReservationMVC.Controllers
 
                 //session for userid 
                 Session["user_id"] = u.User_Id;
+                Session["email"] = u.Email;
 
                 return RedirectToAction("afterlogin");
             }
@@ -258,7 +259,7 @@ namespace RailwayReservationMVC.Controllers
 
 
 
-        #region search train
+        #region Search Train
         public ActionResult ViewTrainDetails()
         {
             var data = TrainDetailsObject.GetModel().ToList();
