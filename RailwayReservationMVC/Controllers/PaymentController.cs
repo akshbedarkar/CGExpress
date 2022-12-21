@@ -63,7 +63,7 @@ namespace RailwayReservationMVC.Controllers
                 address = _requestData.address,
 
             };
-
+            
             return View("PaymentPage", orderModel);
         }
 
@@ -87,7 +87,7 @@ namespace RailwayReservationMVC.Controllers
             Razorpay.Api.Payment paymentCaptured = payment.Capture(options);
             string amt = paymentCaptured.Attributes["amount"];
 
-
+            //Session["email_to"] = _requestData.email;
 
             if (paymentCaptured.Attributes["status"] == "captured")
             {
@@ -98,6 +98,8 @@ namespace RailwayReservationMVC.Controllers
                 var str = bigstr.Replace("-", string.Empty);
                 var pnr = str.ToString().Substring(0, 10);
                 Session["PNR"] = pnr;
+                
+                
 
                 List<TrainDetails> trainDetails = TrainObj.GetModel().ToList();
 
@@ -119,11 +121,14 @@ namespace RailwayReservationMVC.Controllers
                 reserve.Train_Id = tf;
                 ResObj.InsertModel(reserve);
                 ResObj.Save();
+
+
+
                 //email notification:
-                MailMessage mm = new MailMessage("railwayreservationsystemmail@gmail.com", "akshata26bedarkar@gmail.com" );
+                MailMessage mm = new MailMessage("railwayreservationsystemmail@gmail.com", (string)Session["email"] );
 
                 mm.Subject = "Welcome to Railway Reservation System";
-                mm.Body = "Thank you for Booking tickets with us!" + "\n" + "Here are you details:" + "\n" + "Transaction Id :" + Session["transactionId"] + "\n" + "PNR Number" + Session["PNR"] + "Name" + "\n" + Session["ResName"] + "Source Station" + "\n" + Session["SourceStation"] + "Destination Station" + "\n" + Session["DestinationStation"] + "\n" + "Thank you ! Have a safe Journey";
+                mm.Body = "Thank you for Booking tickets with us!" + "\n" + "Here are you details:" + "\n" + "Transaction Id :" + Session["transactionId"] + "\n" + "PNR Number" + Session["PNR"] + "\n"+ "Name" + Session["ResName"] +"\n"+ "Source Station"  + Session["SourceStation"] + "\n" + "Destination Station" + Session["DestinationStation"] + "\n" + "Thank you ! Have a safe Journey";
                 mm.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.gmail.com";
