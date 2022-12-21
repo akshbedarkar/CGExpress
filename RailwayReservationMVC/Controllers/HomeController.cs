@@ -190,7 +190,7 @@ namespace RailwayReservationMVC.Controllers
 
 
         }
-        [Authorize]
+       
         public ActionResult afterlogin()
         {
             return View();
