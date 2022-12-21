@@ -6,12 +6,15 @@ using System.Net;
 using System.Web.Mvc;
 using System.Text;
 using RailwayReservationMVC.Models.DAL;
+using System.Web.Security;
 using System.Collections.Generic;
 
 namespace RailwayReservationMVC.Controllers
 {
+
     public class HomeController : Controller
     {
+
         #region Repository Object
         private IRailwayRepository<Reservation> ReservationObject;
 
@@ -31,7 +34,7 @@ namespace RailwayReservationMVC.Controllers
         }
         #endregion
 
-       
+
         #region Homepage
         public ActionResult Homepage()
         {
@@ -42,7 +45,7 @@ namespace RailwayReservationMVC.Controllers
         #endregion
 
 
-        
+
         #region Search Train
         [HttpPost]
         public ActionResult Homepage(string searching)
@@ -55,7 +58,7 @@ namespace RailwayReservationMVC.Controllers
         #endregion
 
 
-        
+
         #region SignUp and Email Notification
         public ActionResult SignUp()
         {
@@ -65,7 +68,7 @@ namespace RailwayReservationMVC.Controllers
         [HttpPost]
         public ActionResult SignUp(User u)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 //email notification
                 MailMessage mm = new MailMessage("railwayreservationsystemmail@gmail.com", u.Email);
@@ -104,29 +107,31 @@ namespace RailwayReservationMVC.Controllers
                 TempData["InvalidCredentials"] = "Invalid SignUp Credentials";
                 return View();
             }
-              
-           
-            
-            
+
+
+
+
         }
 
         #endregion
 
 
         #region Login
+
         public ActionResult Login()
         {
             return View();
         }
 
-        
+
         [HttpPost]
-        public ActionResult Login(string email,string password)
+        public ActionResult Login(string email, string password)
         {
+
             if (ModelState.IsValid)
             {
                 List<User> userDetails = UserObject.GetModel().ToList();
-                var userid = from id in userDetails where id.Email ==email select id.User_Id;
+                var userid = from id in userDetails where id.Email == email select id.User_Id;
 
                 Session["user_id"] = userid;
 
@@ -140,7 +145,7 @@ namespace RailwayReservationMVC.Controllers
                 var data = UserObject.GetModel().Where(s => s.Email.Equals(email) && s.Password.Equals(password)).ToList();
                 if (data.Count() > 0)
                 {
-                    
+                    FormsAuthentication.SetAuthCookie(email, false);
                     return RedirectToAction("afterlogin");
                 }
                 else
@@ -149,28 +154,29 @@ namespace RailwayReservationMVC.Controllers
                     return RedirectToAction("Login");
                 }
             }
-
             return View();
+
+
         }
-       
+
         public ActionResult AdminLogin()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult AdminLogin(string email,string password,string role)
+        public ActionResult AdminLogin(string email, string password, string role)
         {
 
 
             if (ModelState.IsValid)
             {
-                
+
                 var data = UserObject.GetModel().Where(s => s.Email.Equals(email) && s.Password.Equals(password) && s.Role.Equals(role)).ToList();
                 if (data.Count() > 0)
                 {
 
-                    
-                    return RedirectToAction("Index","Admin");
+
+                    return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
@@ -184,7 +190,7 @@ namespace RailwayReservationMVC.Controllers
 
 
         }
-
+        [Authorize]
         public ActionResult afterlogin()
         {
             return View();
@@ -198,64 +204,17 @@ namespace RailwayReservationMVC.Controllers
         #region logout
         public ActionResult Logout()
         {
-            
-            return RedirectToAction("Homepage");
-                
-               
-           
+
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
+
+
+
         }
         #endregion
 
-        
-        #region Reservation
 
-        public ActionResult ReservationPage()
-        {
-            var data = ReservationObject.GetModel();
-            return View(data);
-        }
-        public ActionResult CreateReservation()
-        {
-            return View();
-        }
 
-        [HttpPost]
-        public ActionResult CreateReservation(Reservation res)
-
-        {
-
-            var data = ReservationObject.GetModel();
-            if (data.Count() >= 7)
-            {
-                TempData["msg"] = "<script>alert('YOU CANNOT ADD MORE THAN 6 PASSENGER');</script>";
-            }
-            else
-            {
-
-                ReservationObject.InsertModel(res);
-                ReservationObject.Save();
-
-                return RedirectToAction("ReservationPage");
-            }
-            return View(res);
-
-        }
-
-        public ActionResult DeleteReservation(int id)
-        {
-            Reservation rt = ReservationObject.GetModelByID(id);
-            return View(rt);
-        }
-        [HttpPost]
-        public ActionResult DeleteReservation(int id, Reservation reservation)
-        {
-
-            ReservationObject.DeleteModel(id);
-            ReservationObject.Save();
-            return RedirectToAction("ReservationPage");
-        }
-
-        #endregion
 
 
 
@@ -264,7 +223,7 @@ namespace RailwayReservationMVC.Controllers
         {
             var data = TrainDetailsObject.GetModel().ToList();
             return View(data);
-            
+
         }
         [HttpPost]
         public ActionResult ViewTrainDetails(string searching)
@@ -275,4 +234,3 @@ namespace RailwayReservationMVC.Controllers
 
     }
 }
-  

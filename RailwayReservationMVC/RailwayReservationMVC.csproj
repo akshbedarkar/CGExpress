@@ -193,7 +193,7 @@
     <Content Include="Views\Payment\PaymentPage.cshtml" />
     <Content Include="Views\Payment\Success.cshtml" />
     <Content Include="Views\Payment\Failed.cshtml" />
-    <Content Include="Views\Res\CancelPNR.cshtml" />
+    <Content Include="Views\Res\CancelTicket.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

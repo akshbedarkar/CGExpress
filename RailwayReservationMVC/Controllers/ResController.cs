@@ -72,19 +72,23 @@ namespace RailwayReservationMVC.Controllers
         }
 
 
-        public ActionResult CancelPNR()
+        public ActionResult CancelTicket()
         {
             return View();
+
         }
+
         [HttpPost]
-        public ActionResult CancelPNR(int pnr, Reservation reservation)
+        public ActionResult CancelTicket(Reservation r)
         {
-            
-            //ReservationObj.DeleteModel(pnr);
+           
+            ReservationObj.DeletestringModel(r.PNR_NO);
             ReservationObj.Save();
+           
 
             TempData["cancelmessage"] = "Your Ticket has been cancel !";
-            return View();
+            return RedirectToAction("afterlogin");
+            
         }
     }
 }

@@ -26,6 +26,12 @@ namespace RailwayReservationMVC.Models.DAL
             dbEntity.Remove(model);
         }
 
+        public void DeletestringModel(string pnr)
+        {
+            T model = dbEntity.Find(pnr);
+            dbEntity.Remove(model);
+        }
+
         public IEnumerable<T> GetModel()
         {
             return dbEntity.ToList();

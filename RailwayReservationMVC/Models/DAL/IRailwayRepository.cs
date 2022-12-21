@@ -16,6 +16,7 @@ namespace RailwayReservationMVC.Models.DAL
 
         void UpdateModel(T model);
         void DeleteModel(int ModelId);
+        void DeletestringModel(string pnr);
         void Save();
 
 
